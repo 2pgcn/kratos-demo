@@ -1,0 +1,42 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    run: pg-auth
+  name: pg-auth
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      run: pg-auth
+  template:
+    metadata:
+      labels:
+        run: pg-auth
+    spec:
+      containers:
+        - image: ${IMAGE}
+          name: app
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: spring-boot-service
+  labels:
+    test: test
+    labele2: label
+spec:
+  ports:
+    - name: http
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
+    - name: https
+      port: 443
+      protocol: TCP
+      targetPort: 443
+  selector:
+    run: pg-auth
+  sessionAffinity: None
+  type: ClusterIP
