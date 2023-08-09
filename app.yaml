@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - image: ${IMAGE}
-          name: app
+          name: pg-auth-pod
 ---
 apiVersion: v1
 kind: Service
