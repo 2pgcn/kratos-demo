@@ -47,7 +47,7 @@ api:
 .PHONY: build
 # build
 build:
-	mkdir -p bin/ && go build -gcflags="all=-N -l" -ldflags "-X main.Version=$(VERSION)" -o ./bin/ ./...
+	mkdir -p bin/ && go build -gcflags="all=-N -l" -ldflags "-X main.Version=$(VERSION)" -o ./bin/server ./cmd/...
 
 .PHONY: generate
 # generate
