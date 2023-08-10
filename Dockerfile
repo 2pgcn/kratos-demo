@@ -1,9 +1,9 @@
-FROM golang:1.20 AS builder
+FROM  registry.cn-shenzhen.aliyuncs.com/pg/golang:1.20 AS builder
 
 COPY . /src
 WORKDIR /src
 
-RUN GOPROXY=https://goproxy.cn & make build
+RUN make build
 
 FROM registry.cn-shenzhen.aliyuncs.com/pg/debian:laster
 
