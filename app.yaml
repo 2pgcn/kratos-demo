@@ -18,6 +18,8 @@ spec:
       containers:
         - image: ${IMAGE}
           name: pg-auth-pod
+      imagePullSecrets:
+        - name: pg-cr
 ---
 apiVersion: v1
 kind: Service
