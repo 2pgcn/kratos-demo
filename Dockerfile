@@ -1,4 +1,4 @@
-FROM  registry.cn-shenzhen.aliyuncs.com/pg/golang:1.20.7 AS builder
+FROM  registry.cn-shenzhen.aliyuncs.com/pg/golang:1.19.1 AS builder
 
 COPY . /src
 WORKDIR /src
