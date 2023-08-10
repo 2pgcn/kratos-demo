@@ -5,6 +5,7 @@ metadata:
   labels:
     run: pg-auth
   name: pg-auth
+  namespace: pg
 spec:
   replicas: 2
   selector:
