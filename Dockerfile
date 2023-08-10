@@ -3,7 +3,8 @@ FROM  registry.cn-shenzhen.aliyuncs.com/pg/golang:1.20 AS builder
 COPY . /src
 WORKDIR /src
 
-RUN GOPROXY=https://goproxy.cn make build
+RUN GOPROXY=https://goproxy.cn
+RUN mkdir -p bin/ && go build -gcflags="all=-N -l"  -o ./bin/server ./cmd/...
 
 FROM  registry.cn-shenzhen.aliyuncs.com/pg/debian:laster
 
