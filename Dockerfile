@@ -8,7 +8,7 @@ RUN go build -gcflags="all=-N -l"  -o /src/server /src/cmd/...
 
 FROM  registry.cn-shenzhen.aliyuncs.com/pg/debian:laster
 
-COPY --from=builder /src/bin /app
+COPY --from=builder /src/server /app
 
 WORKDIR /app
 
