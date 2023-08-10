@@ -8,5 +8,4 @@ ADD ${SERVER_FILE} /app/server
 EXPOSE 8000
 EXPOSE 9000
 VOLUME /data/conf
-RUN chmod +x server
 CMD ["./server", "-conf", "/data/conf"]
