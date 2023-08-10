@@ -1,13 +1,18 @@
-FROM registry.cn-shenzhen.aliyuncs.com/pg/debian:laster
+FROM  registry.cn-shenzhen.aliyuncs.com/pg/golang:1.20 AS builder
 
-ARG SERVER_FILE="bin/server"
+COPY . /src
+WORKDIR /src
+
+RUN GOPROXY=https://goproxy.cn make build
+
+FROM  registry.cn-shenzhen.aliyuncs.com/pg/debian:laster
+
+COPY --from=builder /src/bin /app
+
 WORKDIR /app
-
-ADD  ${SERVER_FILE} /app/server
 
 EXPOSE 8000
 EXPOSE 9000
-VOLUME /data/
+VOLUME /data/conf
 
-RUN ["chmod","+x","/app/server"]
 CMD ["./server", "-conf", "/data/conf"]
