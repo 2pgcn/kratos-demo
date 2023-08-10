@@ -3,10 +3,10 @@ FROM registry.cn-shenzhen.aliyuncs.com/pg/debian:laster
 ARG SERVER_FILE="bin/server"
 WORKDIR /app
 
-COPY ${SERVER_FILE} /app
+ADD ${SERVER_FILE} /app/server
 
 EXPOSE 8000
 EXPOSE 9000
 VOLUME /data/conf
-
+RUN chmod +x server
 CMD ["./server", "-conf", "/data/conf"]
