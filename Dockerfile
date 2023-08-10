@@ -1,8 +1,9 @@
 FROM registry.cn-shenzhen.aliyuncs.com/pg/debian:laster
 
-COPY ${data} /app
-
+ARG SERVER_FILE="bin/server"
 WORKDIR /app
+
+COPY ${SERVER_FILE} /app
 
 EXPOSE 8000
 EXPOSE 9000

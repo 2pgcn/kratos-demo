@@ -16,10 +16,8 @@ spec:
         run: pg-auth
     spec:
       containers:
-        - image: ${IMAGE}
+        - image: "registry.cn-shenzhen.aliyuncs.com/pg/auth:2023-08-10-13-40-05"
           name: pg-auth-pod
-      imagePullSecrets:
-        - name: pg-cr
 ---
 apiVersion: v1
 kind: Service
