@@ -5,7 +5,7 @@ WORKDIR /src
 
 RUN GOPROXY=https://goproxy.cn make build
 
-FROM registry.cn-shenzhen.aliyuncs.com/pg/common:v1
+FROM registry.cn-shenzhen.aliyuncs.com/pg/debian:laster
 
 COPY --from=builder /src/bin /app
 
