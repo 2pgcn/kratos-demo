@@ -1,1 +1,7 @@
-FROM golang:1.20
+FROM --platform=linux/amd64 debian:stable-slim
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        ca-certificates  \
+        netbase \
+        && rm -rf /var/lib/apt/lists/ \
+        && apt-get autoremove -y && apt-get autoclean -y
