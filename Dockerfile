@@ -4,7 +4,7 @@ COPY . /src
 WORKDIR /src
 
 RUN GOPROXY=https://goproxy.cn
-RUN mkdir -p bin/ && go build -gcflags="all=-N -l"  -o ./bin/server ./cmd/...
+RUN go build -gcflags="all=-N -l"  -o /src/server /src/cmd/...
 
 FROM  registry.cn-shenzhen.aliyuncs.com/pg/debian:laster
 
