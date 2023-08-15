@@ -54,7 +54,7 @@ build:
 generate:
 	go mod tidy
 	go get github.com/google/wire/cmd/wire@latest
-	go generate ./...
+	go generate ./... -mod=vendor
 
 .PHONY: all
 # generate all

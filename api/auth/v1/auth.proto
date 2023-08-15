@@ -1,0 +1,55 @@
+syntax = "proto3";
+
+package auth.v1;
+
+import "google/api/annotations.proto";
+import "google/protobuf/Empty.proto";
+
+option go_package = "github.com/2pgcn/auth/api/auth/v1;v1";
+
+// The greeting service definition.
+service Greeter {
+  // Sends a greeting
+  rpc Register (RegisterRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/auth/reg"
+      body: "*",
+    };
+  }
+
+  rpc Login (AuthRequest) returns (AuthReply){
+    option (google.api.http) = {
+      post: "/auth/login",
+      body: "*",
+    };
+  }
+
+  rpc UpdateUserInfo(UpdateUserReq) returns (google.protobuf.Empty){
+    option (google.api.http) = {
+      put: "/auth/login"
+      body: "*",
+    };
+  }
+}
+
+message RegisterRequest {
+  string name = 1;
+  string  password= 2;
+  string email = 3;
+  string avatar = 4;
+}
+
+message AuthReply {
+  string token = 1;
+}
+
+message AuthRequest {
+  string phone = 1;
+  string password = 2;
+}
+
+message UpdateUserReq{
+  int64 id = 1;
+  string avatar = 2;
+}
+

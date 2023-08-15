@@ -1,7 +1,7 @@
 syntax = "proto3";
 package kratos.api;
 
-option go_package = "go-kit/internal/conf;conf";
+option go_package = "github.com/2pgcn/auth/internal/conf;conf";
 
 import "google/protobuf/duration.proto";
 
@@ -26,16 +26,23 @@ message Server {
 }
 
 message Data {
-  message Database {
-    string driver = 1;
-    string source = 2;
+  message Mysql {
+    string dsn_master = 1;
+    repeated string dsn_slave = 2;
+    int32 max_idle_connection = 3;
+    int32 max_open_connection = 4;
+    google.protobuf.Duration connection_max_lifetime = 5;
+    string log_level = 6;
   }
   message Redis {
     string network = 1;
     string addr = 2;
     google.protobuf.Duration read_timeout = 3;
     google.protobuf.Duration write_timeout = 4;
+    google.protobuf.Duration keep_live = 5;
+    int32 pool_size = 6;
+    int32 use_db = 7;
   }
-  Database database = 1;
+  Mysql mysql = 1;
   Redis redis = 2;
 }
