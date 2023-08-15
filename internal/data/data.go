@@ -2,6 +2,7 @@ package data
 
 import (
 	"context"
+	"database/sql"
 	"github.com/2pgcn/auth/internal/conf"
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/google/wire"
@@ -15,7 +16,7 @@ var ProviderSet = wire.NewSet(NewData, NewUserRepo)
 // Data .
 type Data struct {
 	redisClient *redis.Client
-	mysqlClient *gorm.ConnPool
+	mysqlClient *gorm.DB
 	// TODO wrapped database client
 }
 
@@ -25,18 +26,22 @@ func NewData(c *conf.Data, logger log.Logger) (*Data, func(), error) {
 	if err != nil {
 		panic(err)
 	}
-
+	mysqlClient, err := NewMysql(c.Mysql)
+	if err != nil {
+		panic(err)
+	}
 	cleanup := func() {
 		if err = redisClient.Close(); err != nil {
-			log.NewHelper(logger).Infof("closing the redis client err:%v", err)
+			log.NewHelper(logger).Errorf("closing the redis client err:%v", err)
 		}
-		log.NewHelper(logger).Info("closing the data resources")
+		var sqlDb *sql.DB
+		if sqlDb, err = mysqlClient.DB(); err != nil {
+			log.NewHelper(logger).Errorf("closing the redis client err:%v", err)
+		}
+		err = sqlDb.Close()
+		log.NewHelper(logger).Infof("closing the data resources,err:%v", err)
 	}
-	return &Data{redisClient: redisClient}, cleanup, nil
-}
-
-func NewMysql() {
-
+	return &Data{redisClient: redisClient, mysqlClient: mysqlClient}, cleanup, nil
 }
 
 func NewRedis(ctx context.Context, data *conf.Data_Redis) (client *redis.Client, err error) {

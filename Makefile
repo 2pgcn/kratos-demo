@@ -49,6 +49,8 @@ api:
 build:
 	mkdir -p bin/ && go build -gcflags="all=-N -l" -ldflags "-X main.Version=$(VERSION)" -o ./bin/server ./cmd/...
 
+run:
+	go run --race ./cmd/auth/main.go ./cmd/auth/wire_gen.go -conf ./configs/config.yaml
 .PHONY: generate
 # generate
 generate:

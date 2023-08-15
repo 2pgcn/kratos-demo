@@ -50,11 +50,11 @@ func newApp(logger log.Logger, gs *grpc.Server, hs *http.Server) *kratos.App {
 func main() {
 	flag.Parse()
 	logger := log.With(log.NewStdLogger(os.Stdout),
-		"ts", log.DefaultTimestamp,
+		//"ts", log.DefaultTimestamp,
 		"caller", log.DefaultCaller,
-		"service.id", id,
+		//"service.id", id,
 		"service.name", Name,
-		"service.version", Version,
+		//"service.version", Version,
 		"trace.id", tracing.TraceID(),
 		"span.id", tracing.SpanID(),
 	)

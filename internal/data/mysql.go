@@ -11,12 +11,7 @@ import (
 	gormopentracing "gorm.io/plugin/opentracing"
 )
 
-type mysqlStore struct {
-	die chan struct{}
-	db  *gorm.DB
-}
-
-func OpenDBConnection(c *conf.Data_Mysql) (db *gorm.DB, err error) {
+func NewMysql(c *conf.Data_Mysql) (db *gorm.DB, err error) {
 	//newLogger := New(
 	//	Config{
 	//		SlowThreshold:             200 * time.Millisecond, // 慢 SQL 阈值
