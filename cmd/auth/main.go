@@ -47,6 +47,12 @@ func newApp(logger log.Logger, gs *grpc.Server, hs *http.Server) *kratos.App {
 	)
 }
 
+//title: 1-docker技术详解
+//date: 2023-05-20 11:38:08
+//tags: [docker,cgroup,namespace,overlayFs,k8s,CloudNative]
+//categories: [cloud-native]
+//toc: true
+
 func main() {
 	flag.Parse()
 	logger := log.With(log.NewStdLogger(os.Stdout),

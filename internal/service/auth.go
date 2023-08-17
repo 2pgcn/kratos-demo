@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"fmt"
 	"github.com/2pgcn/auth/internal/biz"
 	"github.com/go-kratos/kratos/v2/log"
 
@@ -12,22 +13,36 @@ import (
 type AuthService struct {
 	pb.UnimplementedGreeterServer
 	log  log.Logger
-	User *biz.UserUsecase
+	user *biz.UserUsecase
 }
 
 func NewAuthService(log log.Logger, user *biz.UserUsecase) *AuthService {
 	return &AuthService{
 		log:  log,
-		User: user,
+		user: user,
 	}
 }
 
 func (s *AuthService) Register(ctx context.Context, req *pb.RegisterRequest) (*emptypb.Empty, error) {
-	return nil, nil
+	//跳过验证
+	return nil, s.user.Register(ctx, &biz.User{
+		UserName: req.GetName(),
+		Password: req.GetPassword(),
+		Email:    req.GetEmail(),
+		Avatar:   req.GetAvatar(),
+	})
 }
 func (s *AuthService) Login(ctx context.Context, req *pb.AuthRequest) (*pb.AuthReply, error) {
-	return &pb.AuthReply{}, nil
+	token, err := s.user.AuthByPwd(ctx, req.GetUsername(), req.GetPassword())
+	fmt.Println(token, err)
+	return &pb.AuthReply{Token: token}, err
 }
+
+func (s *AuthService) GetIdByToken(ctx context.Context, req *pb.GetIdByTokenReq) (*pb.GetIdByTokenReply, error) {
+	id, err := s.user.GetIdByToken(ctx, req.GetToken())
+	return &pb.GetIdByTokenReply{Id: id}, err
+}
+
 func (s *AuthService) UpdateUserInfo(ctx context.Context, req *pb.UpdateUserReq) (*emptypb.Empty, error) {
 	return nil, nil
 }

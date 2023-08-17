@@ -7,6 +7,24 @@ info:
     description: The greeting service definition.
     version: 0.0.1
 paths:
+    /auth/authToken:
+        post:
+            tags:
+                - Greeter
+            operationId: Greeter_GetIdByToken
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/auth.v1.GetIdByTokenReq'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/auth.v1.GetIdByTokenReply'
     /auth/login:
         put:
             tags:
@@ -65,9 +83,20 @@ components:
         auth.v1.AuthRequest:
             type: object
             properties:
-                phone:
+                username:
                     type: string
                 password:
+                    type: string
+        auth.v1.GetIdByTokenReply:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int64
+        auth.v1.GetIdByTokenReq:
+            type: object
+            properties:
+                token:
                     type: string
         auth.v1.RegisterRequest:
             type: object

@@ -14,7 +14,7 @@ data:
     connection_max_lifetime: 360s
     log_level: info
   redis:
-    addr: 127.0.0.1:6379
+    addr: ssh.2pg.cn:30834
     read_timeout: 0.2s
     write_timeout: 0.2s
     keeplive: 20s

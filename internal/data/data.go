@@ -56,7 +56,3 @@ func NewRedis(ctx context.Context, data *conf.Data_Redis) (client *redis.Client,
 	client.Ping(ctx)
 	return
 }
-
-func NewKafka() {
-
-}

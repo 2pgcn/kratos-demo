@@ -22,6 +22,7 @@ const _ = grpc.SupportPackageIsVersion7
 const (
 	Greeter_Register_FullMethodName       = "/auth.v1.Greeter/Register"
 	Greeter_Login_FullMethodName          = "/auth.v1.Greeter/Login"
+	Greeter_GetIdByToken_FullMethodName   = "/auth.v1.Greeter/GetIdByToken"
 	Greeter_UpdateUserInfo_FullMethodName = "/auth.v1.Greeter/UpdateUserInfo"
 )
 
@@ -32,6 +33,7 @@ type GreeterClient interface {
 	// Sends a greeting
 	Register(ctx context.Context, in *RegisterRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	Login(ctx context.Context, in *AuthRequest, opts ...grpc.CallOption) (*AuthReply, error)
+	GetIdByToken(ctx context.Context, in *GetIdByTokenReq, opts ...grpc.CallOption) (*GetIdByTokenReply, error)
 	UpdateUserInfo(ctx context.Context, in *UpdateUserReq, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
@@ -61,6 +63,15 @@ func (c *greeterClient) Login(ctx context.Context, in *AuthRequest, opts ...grpc
 	return out, nil
 }
 
+func (c *greeterClient) GetIdByToken(ctx context.Context, in *GetIdByTokenReq, opts ...grpc.CallOption) (*GetIdByTokenReply, error) {
+	out := new(GetIdByTokenReply)
+	err := c.cc.Invoke(ctx, Greeter_GetIdByToken_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *greeterClient) UpdateUserInfo(ctx context.Context, in *UpdateUserReq, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, Greeter_UpdateUserInfo_FullMethodName, in, out, opts...)
@@ -77,6 +88,7 @@ type GreeterServer interface {
 	// Sends a greeting
 	Register(context.Context, *RegisterRequest) (*emptypb.Empty, error)
 	Login(context.Context, *AuthRequest) (*AuthReply, error)
+	GetIdByToken(context.Context, *GetIdByTokenReq) (*GetIdByTokenReply, error)
 	UpdateUserInfo(context.Context, *UpdateUserReq) (*emptypb.Empty, error)
 	mustEmbedUnimplementedGreeterServer()
 }
@@ -90,6 +102,9 @@ func (UnimplementedGreeterServer) Register(context.Context, *RegisterRequest) (*
 }
 func (UnimplementedGreeterServer) Login(context.Context, *AuthRequest) (*AuthReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Login not implemented")
+}
+func (UnimplementedGreeterServer) GetIdByToken(context.Context, *GetIdByTokenReq) (*GetIdByTokenReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetIdByToken not implemented")
 }
 func (UnimplementedGreeterServer) UpdateUserInfo(context.Context, *UpdateUserReq) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateUserInfo not implemented")
@@ -143,6 +158,24 @@ func _Greeter_Login_Handler(srv interface{}, ctx context.Context, dec func(inter
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Greeter_GetIdByToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetIdByTokenReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GreeterServer).GetIdByToken(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Greeter_GetIdByToken_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GreeterServer).GetIdByToken(ctx, req.(*GetIdByTokenReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Greeter_UpdateUserInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(UpdateUserReq)
 	if err := dec(in); err != nil {
@@ -175,6 +208,10 @@ var Greeter_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Login",
 			Handler:    _Greeter_Login_Handler,
+		},
+		{
+			MethodName: "GetIdByToken",
+			Handler:    _Greeter_GetIdByToken_Handler,
 		},
 		{
 			MethodName: "UpdateUserInfo",

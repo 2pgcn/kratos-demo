@@ -12,14 +12,6 @@ import (
 )
 
 func NewMysql(c *conf.Data_Mysql) (db *gorm.DB, err error) {
-	//newLogger := New(
-	//	Config{
-	//		SlowThreshold:             200 * time.Millisecond, // 慢 SQL 阈值
-	//		LogLevel:                  getGormLevel(),         // 日志级别
-	//		IgnoreRecordNotFoundError: true,                   // 忽略ErrRecordNotFound（记录未找到）错误
-	//		Colorful:                  false,                  // 禁用彩色打印
-	//	},
-	//)
 	ormConfig := &gorm.Config{
 		NamingStrategy: schema.NamingStrategy{
 			SingularTable: true,

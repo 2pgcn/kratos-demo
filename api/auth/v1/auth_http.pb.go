@@ -20,11 +20,13 @@ var _ = binding.EncodeURL
 
 const _ = http.SupportPackageIsVersion1
 
+const OperationGreeterGetIdByToken = "/auth.v1.Greeter/GetIdByToken"
 const OperationGreeterLogin = "/auth.v1.Greeter/Login"
 const OperationGreeterRegister = "/auth.v1.Greeter/Register"
 const OperationGreeterUpdateUserInfo = "/auth.v1.Greeter/UpdateUserInfo"
 
 type GreeterHTTPServer interface {
+	GetIdByToken(context.Context, *GetIdByTokenReq) (*GetIdByTokenReply, error)
 	Login(context.Context, *AuthRequest) (*AuthReply, error)
 	// Register Sends a greeting
 	Register(context.Context, *RegisterRequest) (*emptypb.Empty, error)
@@ -35,6 +37,7 @@ func RegisterGreeterHTTPServer(s *http.Server, srv GreeterHTTPServer) {
 	r := s.Route("/")
 	r.POST("/auth/reg", _Greeter_Register0_HTTP_Handler(srv))
 	r.POST("/auth/login", _Greeter_Login0_HTTP_Handler(srv))
+	r.POST("/auth/authToken", _Greeter_GetIdByToken0_HTTP_Handler(srv))
 	r.PUT("/auth/login", _Greeter_UpdateUserInfo0_HTTP_Handler(srv))
 }
 
@@ -76,6 +79,25 @@ func _Greeter_Login0_HTTP_Handler(srv GreeterHTTPServer) func(ctx http.Context) 
 	}
 }
 
+func _Greeter_GetIdByToken0_HTTP_Handler(srv GreeterHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in GetIdByTokenReq
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationGreeterGetIdByToken)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.GetIdByToken(ctx, req.(*GetIdByTokenReq))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*GetIdByTokenReply)
+		return ctx.Result(200, reply)
+	}
+}
+
 func _Greeter_UpdateUserInfo0_HTTP_Handler(srv GreeterHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in UpdateUserReq
@@ -96,6 +118,7 @@ func _Greeter_UpdateUserInfo0_HTTP_Handler(srv GreeterHTTPServer) func(ctx http.
 }
 
 type GreeterHTTPClient interface {
+	GetIdByToken(ctx context.Context, req *GetIdByTokenReq, opts ...http.CallOption) (rsp *GetIdByTokenReply, err error)
 	Login(ctx context.Context, req *AuthRequest, opts ...http.CallOption) (rsp *AuthReply, err error)
 	Register(ctx context.Context, req *RegisterRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
 	UpdateUserInfo(ctx context.Context, req *UpdateUserReq, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
@@ -107,6 +130,19 @@ type GreeterHTTPClientImpl struct {
 
 func NewGreeterHTTPClient(client *http.Client) GreeterHTTPClient {
 	return &GreeterHTTPClientImpl{client}
+}
+
+func (c *GreeterHTTPClientImpl) GetIdByToken(ctx context.Context, in *GetIdByTokenReq, opts ...http.CallOption) (*GetIdByTokenReply, error) {
+	var out GetIdByTokenReply
+	pattern := "/auth/authToken"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationGreeterGetIdByToken))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, err
 }
 
 func (c *GreeterHTTPClientImpl) Login(ctx context.Context, in *AuthRequest, opts ...http.CallOption) (*AuthReply, error) {

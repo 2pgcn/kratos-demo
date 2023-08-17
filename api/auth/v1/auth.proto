@@ -23,6 +23,12 @@ service Greeter {
       body: "*",
     };
   }
+  rpc GetIdByToken (GetIdByTokenReq) returns (GetIdByTokenReply){
+    option (google.api.http) = {
+      post: "/auth/authToken",
+      body: "*",
+    };
+  }
 
   rpc UpdateUserInfo(UpdateUserReq) returns (google.protobuf.Empty){
     option (google.api.http) = {
@@ -43,8 +49,14 @@ message AuthReply {
   string token = 1;
 }
 
+message GetIdByTokenReq {
+  string token = 1;
+}
+message GetIdByTokenReply {
+  int64 id = 1;
+}
 message AuthRequest {
-  string phone = 1;
+  string username = 1;
   string password = 2;
 }
 
