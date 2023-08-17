@@ -29,6 +29,7 @@ Thumbs.db
 *.key
 *.log
 bin/
+configs/
 
 # Develop tools
 .vscode/
