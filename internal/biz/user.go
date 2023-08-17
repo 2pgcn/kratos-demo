@@ -83,7 +83,11 @@ func (u *UserUsecase) AuthByPwd(ctx context.Context, username string, passwd str
 }
 
 func (u *UserUsecase) GetIdByToken(ctx context.Context, token string) (int64, error) {
-	return u.repo.GetIdByToken(ctx, token)
+	id, err := u.repo.GetIdByToken(ctx, token)
+	if id == 0 {
+		return id, errors.Unauthorized(v1.ErrorReason_USER_AUTH_ERROR.String(), "token error")
+	}
+	return id, err
 }
 
 func createToken(id int64) string {

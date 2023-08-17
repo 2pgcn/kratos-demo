@@ -2,6 +2,7 @@ package data
 
 import (
 	"context"
+	"fmt"
 	"github.com/redis/go-redis/v9"
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
@@ -116,12 +117,17 @@ func (u *userRepo) FindByUserName(ctx context.Context, userName string) (*biz.Us
 }
 
 func (u *userRepo) CreateTokenLinkId(ctx context.Context, id int64, token string) error {
-	return u.data.redisClient.SetNX(ctx, token, id, time.Hour*3).Err()
+	return u.data.redisClient.SetNX(ctx, getRedisUserTokenKey(token), id, time.Hour*3).Err()
 }
 
 func (u *userRepo) GetIdByToken(ctx context.Context, token string) (int64, error) {
+	fmt.Println(getRedisUserTokenKey(token))
 	rst := u.data.redisClient.Get(ctx, getRedisUserTokenKey(token))
-	return rst.Int64()
+	id, err := rst.Int64()
+	if err == redis.Nil {
+		return 0, nil
+	}
+	return id, err
 }
 
 func getRedisUserTokenKey(token string) string {

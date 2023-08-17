@@ -2,7 +2,6 @@ package service
 
 import (
 	"context"
-	"fmt"
 	"github.com/2pgcn/auth/internal/biz"
 	"github.com/go-kratos/kratos/v2/log"
 
@@ -24,7 +23,6 @@ func NewAuthService(log log.Logger, user *biz.UserUsecase) *AuthService {
 }
 
 func (s *AuthService) Register(ctx context.Context, req *pb.RegisterRequest) (*emptypb.Empty, error) {
-	//跳过验证
 	return nil, s.user.Register(ctx, &biz.User{
 		UserName: req.GetName(),
 		Password: req.GetPassword(),
@@ -34,7 +32,6 @@ func (s *AuthService) Register(ctx context.Context, req *pb.RegisterRequest) (*e
 }
 func (s *AuthService) Login(ctx context.Context, req *pb.AuthRequest) (*pb.AuthReply, error) {
 	token, err := s.user.AuthByPwd(ctx, req.GetUsername(), req.GetPassword())
-	fmt.Println(token, err)
 	return &pb.AuthReply{Token: token}, err
 }
 
