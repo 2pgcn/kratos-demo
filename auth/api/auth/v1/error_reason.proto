@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package auth.v1;
+
+option go_package = "github.com/2pgcn/auth/api/auth/v1;v1";
+
+enum ErrorReason {
+  GREETER_UNSPECIFIED = 0;
+  USER_NOT_FOUND = 1;
+  USER_AUTH_ERROR = 2;
+  Internal_Error = 3;
+}

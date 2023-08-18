@@ -1,0 +1,121 @@
+# Generated with protoc-gen-openapi
+# https://github.com/google/gnostic/tree/master/cmd/protoc-gen-openapi
+
+openapi: 3.0.3
+info:
+    title: Greeter API
+    description: The greeting service definition.
+    version: 0.0.1
+paths:
+    /auth/authToken:
+        post:
+            tags:
+                - Greeter
+            operationId: Greeter_GetIdByToken
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/auth.v1.GetIdByTokenReq'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/auth.v1.GetIdByTokenReply'
+    /auth/login:
+        put:
+            tags:
+                - Greeter
+            operationId: Greeter_UpdateUserInfo
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/auth.v1.UpdateUserReq'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+        post:
+            tags:
+                - Greeter
+            operationId: Greeter_Login
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/auth.v1.AuthRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/auth.v1.AuthReply'
+    /auth/reg:
+        post:
+            tags:
+                - Greeter
+            description: Sends a greeting
+            operationId: Greeter_Register
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/auth.v1.RegisterRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+components:
+    schemas:
+        auth.v1.AuthReply:
+            type: object
+            properties:
+                token:
+                    type: string
+        auth.v1.AuthRequest:
+            type: object
+            properties:
+                username:
+                    type: string
+                password:
+                    type: string
+        auth.v1.GetIdByTokenReply:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int64
+        auth.v1.GetIdByTokenReq:
+            type: object
+            properties:
+                token:
+                    type: string
+        auth.v1.RegisterRequest:
+            type: object
+            properties:
+                name:
+                    type: string
+                password:
+                    type: string
+                email:
+                    type: string
+                avatar:
+                    type: string
+        auth.v1.UpdateUserReq:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int64
+                avatar:
+                    type: string
+tags:
+    - name: Greeter

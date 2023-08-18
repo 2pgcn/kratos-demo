@@ -1,0 +1,85 @@
+syntax = "proto3";
+
+package blog.v1;
+
+option go_package = "github.com/2pgcn/blog/api/article/v1;v1";
+
+import "google/api/annotations.proto";
+import "validate/validate.proto";
+
+service ArtictlService {
+    rpc CreateArticle (CreateArticleRequest) returns (CreateArticleReply) {
+        option (google.api.http) = {
+            post: "/article/v1"
+            body: "*"
+        };
+    }
+    rpc UpdateArticle (UpdateArticleRequest) returns (UpdateArticleReply) {
+        option (google.api.http) = {
+            put: "/article/v1/{id}"
+            body: "*"
+        };
+    }
+    rpc DeleteArticle (DeleteArticleRequest) returns (DeleteArticleReply) {
+        option (google.api.http) = {
+            delete: "/article/v1/{id}"
+        };
+    }
+    rpc GetArticle (GetArticleRequest) returns (GetArticleReply) {
+        option (google.api.http) = {
+            get: "/article/v1/{id}"
+        };
+    }
+    rpc ListArticle (ListArticleRequest) returns (ListArticleReply) {
+        option (google.api.http) = {
+            get: "/article/v1"
+        };
+    }
+}
+
+message Article {
+    int64 id = 1;
+    string title = 2;
+    string content = 3;
+    int64 create_time = 4;
+}
+
+message CreateArticleRequest {
+    string title = 1 [(validate.rules).string = {min_len: 5, max_len: 50}]; // the title of string must be between 5 and 50 character
+    string content = 2;
+}
+
+message CreateArticleReply {
+    int64 aid = 1;
+}
+
+message UpdateArticleRequest {
+    int64 id = 1 [(validate.rules).int64 = {gt: 0}];
+    string title = 2 [(validate.rules).string = {min_len: 5, max_len: 50}]; // the title of string must be between 5 and 50 character;
+    string content = 3;
+}
+
+message UpdateArticleReply {
+    Article Article = 1;
+}
+
+message DeleteArticleRequest {
+    int64 id = 1;
+}
+message DeleteArticleReply {
+}
+
+message GetArticleRequest {
+    int64 id = 1;
+}
+
+message GetArticleReply {
+    Article Article = 1;
+}
+
+message ListArticleRequest {
+}
+
+message ListArticleReply {
+    repeated Article results = 1;
+}
