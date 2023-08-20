@@ -3,19 +3,19 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    run: pg-auth
-  name: pg-auth
+    run: pg-apigw
+  name: pg-apigw
   namespace: pg
 spec:
   replicas: 2
   selector:
     matchLabels:
-      run: pg-auth
+      run: pg-apigw
   template:
     metadata:
       labels:
-        run: pg-auth
+        run: pg-apigw
     spec:
       containers:
         - image: ${IMAGE}
-          name: pg-auth-pod
+          name: pg-apigw-pod

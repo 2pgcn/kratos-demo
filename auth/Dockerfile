@@ -1,19 +1,18 @@
-FROM  registry.cn-shenzhen.aliyuncs.com/pg/golang:1.19.1 AS builder
+FROM golang:1.19.1 AS builder
 
 COPY . /src
 WORKDIR /src
 
-RUN GOPROXY=https://goproxy.cn
-RUN go build -gcflags="all=-N -l"  -o /src/server /src/cmd/...
+RUN GOPROXY=https://goproxy.cn  go build -gcflags="all=-N -l"  -o /src/server /src/cmd/...
 
-FROM  registry.cn-shenzhen.aliyuncs.com/pg/debian:laster
+FROM debian:stable-slim
 
 WORKDIR /app
 
 COPY --from=builder /src/server /app
+COPY --from=builder /src/configs/config.yaml /app/config.yaml
 
 EXPOSE 8000
 EXPOSE 9000
-VOLUME /data/conf
 
-CMD ["./server", "-conf", "/data/conf"]
+CMD ["./server", "-conf", "./config.yaml"]

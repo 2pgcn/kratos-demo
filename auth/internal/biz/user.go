@@ -5,7 +5,7 @@ import (
 	"crypto/md5"
 	"encoding/hex"
 	"encoding/json"
-	v1 "github.com/2pgcn/auth/api/auth/v1"
+	v1 "github.com/2pgcn/kratos-demo/auth/api/auth/v1"
 	"github.com/go-kratos/kratos/v2/errors"
 	"github.com/go-kratos/kratos/v2/log"
 	"strconv"

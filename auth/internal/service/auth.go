@@ -2,10 +2,10 @@ package service
 
 import (
 	"context"
-	"github.com/2pgcn/auth/internal/biz"
+	"github.com/2pgcn/kratos-demo/auth/internal/biz"
 	"github.com/go-kratos/kratos/v2/log"
 
-	pb "github.com/2pgcn/auth/api/auth/v1"
+	pb "github.com/2pgcn/kratos-demo/auth/api/auth/v1"
 	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
@@ -24,7 +24,7 @@ func NewAuthService(log log.Logger, user *biz.UserUsecase) *AuthService {
 
 func (s *AuthService) Register(ctx context.Context, req *pb.RegisterRequest) (*emptypb.Empty, error) {
 	return nil, s.user.Register(ctx, &biz.User{
-		UserName: req.GetName(),
+		UserName: req.GetUsername(),
 		Password: req.GetPassword(),
 		Email:    req.GetEmail(),
 		Avatar:   req.GetAvatar(),

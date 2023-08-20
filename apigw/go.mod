@@ -1,20 +1,14 @@
-module github.com/2pgcn/auth
+module github.com/2pgcn/kratos-demo/apigw
 
 go 1.18
 
 require (
 	github.com/go-kratos/kratos/v2 v2.6.3
-	github.com/go-sql-driver/mysql v1.7.1
 	github.com/google/wire v0.5.0
-	github.com/redis/go-redis/v9 v9.0.5
 	go.uber.org/automaxprocs v1.5.1
 	google.golang.org/genproto/googleapis/api v0.0.0-20230530153820-e85fd2cbaebc
 	google.golang.org/grpc v1.56.1
 	google.golang.org/protobuf v1.31.0
-	gorm.io/driver/mysql v1.5.1
-	gorm.io/gorm v1.25.3
-	gorm.io/plugin/dbresolver v1.4.5
-	gorm.io/plugin/opentracing v0.0.0-20211220013347-7d2b2af23560
 )
 
 require (

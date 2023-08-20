@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package auth.v1;
 
-option go_package = "github.com/2pgcn/auth/api/auth/v1;v1";
+option go_package = "github.com/2pgcn/kratos-demo/auth/api/auth/v1;v1";
 
 enum ErrorReason {
   GREETER_UNSPECIFIED = 0;

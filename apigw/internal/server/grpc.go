@@ -1,19 +1,20 @@
 package server
 
 import (
-	v1 "github.com/2pgcn/auth/api/auth/v1"
-	"github.com/2pgcn/auth/internal/conf"
-	"github.com/2pgcn/auth/internal/service"
+	v1 "github.com/2pgcn/kratos-demo/apigw/api/apigw/v1"
+	"github.com/2pgcn/kratos-demo/apigw/internal/conf"
+	"github.com/2pgcn/kratos-demo/apigw/internal/service"
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/go-kratos/kratos/v2/middleware/recovery"
 	"github.com/go-kratos/kratos/v2/transport/grpc"
 )
 
 // NewGRPCServer new a gRPC server.
-func NewGRPCServer(c *conf.Server, auth *service.AuthService, logger log.Logger) *grpc.Server {
+func NewGRPCServer(c *conf.Server, article *service.ApigwService, logger log.Logger) *grpc.Server {
 	var opts = []grpc.ServerOption{
 		grpc.Middleware(
 			recovery.Recovery(),
+			authCtx(),
 		),
 	}
 	if c.Grpc.Network != "" {
@@ -26,6 +27,6 @@ func NewGRPCServer(c *conf.Server, auth *service.AuthService, logger log.Logger)
 		opts = append(opts, grpc.Timeout(c.Grpc.Timeout.AsDuration()))
 	}
 	srv := grpc.NewServer(opts...)
-	v1.RegisterGreeterServer(srv, auth)
+	v1.RegisterApigwServer(srv, article)
 	return srv
 }

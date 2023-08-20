@@ -3,7 +3,6 @@ module github.com/2pgcn/kratos-demo/article
 go 1.18
 
 require (
-	github.com/2pgcn/auth v0.0.0-20230817174638-9109ffce178c
 	github.com/envoyproxy/protoc-gen-validate v1.0.1
 	github.com/go-kratos/kratos/v2 v2.6.3
 	github.com/go-sql-driver/mysql v1.7.1

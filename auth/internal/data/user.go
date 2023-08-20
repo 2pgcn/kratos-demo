@@ -8,7 +8,7 @@ import (
 	"gorm.io/gorm/clause"
 	"time"
 
-	"github.com/2pgcn/auth/internal/biz"
+	"github.com/2pgcn/kratos-demo/auth/internal/biz"
 	"github.com/go-kratos/kratos/v2/log"
 )
 

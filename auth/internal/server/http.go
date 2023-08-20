@@ -1,9 +1,9 @@
 package server
 
 import (
-	v1 "github.com/2pgcn/auth/api/auth/v1"
-	"github.com/2pgcn/auth/internal/conf"
-	"github.com/2pgcn/auth/internal/service"
+	v1 "github.com/2pgcn/kratos-demo/auth/api/auth/v1"
+	"github.com/2pgcn/kratos-demo/auth/internal/conf"
+	"github.com/2pgcn/kratos-demo/auth/internal/service"
 
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/go-kratos/kratos/v2/middleware/recovery"

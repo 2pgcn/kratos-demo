@@ -3,20 +3,30 @@
 
 openapi: 3.0.3
 info:
-    title: Greeter API
-    description: The greeting service definition.
+    title: Apigw API
     version: 0.0.1
 paths:
-    /auth/authToken:
+    /pg/apigw/article/v1:
+        get:
+            tags:
+                - Apigw
+            operationId: Apigw_ListArticle
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/apigw.v1.ListArticleReply'
         post:
             tags:
-                - Greeter
-            operationId: Greeter_GetIdByToken
+                - Apigw
+            operationId: Apigw_CreateArticle
             requestBody:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/auth.v1.GetIdByTokenReq'
+                            $ref: '#/components/schemas/apigw.v1.Article'
                 required: true
             responses:
                 "200":
@@ -24,31 +34,42 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/auth.v1.GetIdByTokenReply'
-    /auth/login:
+                                $ref: '#/components/schemas/apigw.v1.CreateArticleReply'
+    /pg/apigw/article/v1/{id}:
+        get:
+            tags:
+                - Apigw
+            operationId: Apigw_GetArticle
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/apigw.v1.GetArticleReply'
         put:
             tags:
-                - Greeter
-            operationId: Greeter_UpdateUserInfo
+                - Apigw
+            operationId: Apigw_UpdateArticle
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
             requestBody:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/auth.v1.UpdateUserReq'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content: {}
-        post:
-            tags:
-                - Greeter
-            operationId: Greeter_Login
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/auth.v1.AuthRequest'
+                            $ref: '#/components/schemas/apigw.v1.UpdateArticleRequest'
                 required: true
             responses:
                 "200":
@@ -56,49 +77,87 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/auth.v1.AuthReply'
-    /auth/reg:
+                                $ref: '#/components/schemas/apigw.v1.UpdateArticleReply'
+        delete:
+            tags:
+                - Apigw
+            operationId: Apigw_DeleteArticle
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/apigw.v1.DeleteArticleReply'
+    /pg/apigw/auth/v1:
         post:
             tags:
-                - Greeter
-            description: Sends a greeting
-            operationId: Greeter_Register
+                - Apigw
+            operationId: Apigw_Login
             requestBody:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/auth.v1.RegisterRequest'
+                            $ref: '#/components/schemas/apigw.v1.LoginRequest'
                 required: true
             responses:
                 "200":
                     description: OK
-                    content: {}
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/apigw.v1.ReturnTokenReply'
 components:
     schemas:
-        auth.v1.AuthReply:
+        apigw.v1.Article:
             type: object
             properties:
-                token:
+                id:
+                    type: integer
+                    format: int64
+                title:
                     type: string
-        auth.v1.AuthRequest:
+                content:
+                    type: string
+                createTime:
+                    type: integer
+                    format: int64
+        apigw.v1.CreateArticleReply:
+            type: object
+            properties:
+                aid:
+                    type: integer
+                    format: int64
+        apigw.v1.DeleteArticleReply:
+            type: object
+            properties: {}
+        apigw.v1.GetArticleReply:
+            type: object
+            properties:
+                Article:
+                    $ref: '#/components/schemas/apigw.v1.Article'
+        apigw.v1.ListArticleReply:
+            type: object
+            properties:
+                results:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/apigw.v1.Article'
+        apigw.v1.LoginRequest:
             type: object
             properties:
                 username:
                     type: string
                 password:
                     type: string
-        auth.v1.GetIdByTokenReply:
-            type: object
-            properties:
-                id:
-                    type: integer
-                    format: int64
-        auth.v1.GetIdByTokenReq:
-            type: object
-            properties:
-                token:
-                    type: string
-        auth.v1.RegisterRequest:
+        apigw.v1.RegisterRequest:
             type: object
             properties:
                 name:
@@ -109,13 +168,25 @@ components:
                     type: string
                 avatar:
                     type: string
-        auth.v1.UpdateUserReq:
+        apigw.v1.ReturnTokenReply:
+            type: object
+            properties:
+                token:
+                    type: string
+        apigw.v1.UpdateArticleReply:
+            type: object
+            properties:
+                Article:
+                    $ref: '#/components/schemas/apigw.v1.Article'
+        apigw.v1.UpdateArticleRequest:
             type: object
             properties:
                 id:
                     type: integer
                     format: int64
-                avatar:
+                title:
+                    type: string
+                content:
                     type: string
 tags:
-    - name: Greeter
+    - name: Apigw

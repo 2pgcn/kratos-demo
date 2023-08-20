@@ -101,7 +101,7 @@ components:
         auth.v1.RegisterRequest:
             type: object
             properties:
-                name:
+                username:
                     type: string
                 password:
                     type: string

@@ -2,7 +2,7 @@ package data
 
 import (
 	"errors"
-	"github.com/2pgcn/auth/internal/conf"
+	"github.com/2pgcn/kratos-demo/auth/internal/conf"
 	_ "github.com/go-sql-driver/mysql"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"

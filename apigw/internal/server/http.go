@@ -1,9 +1,9 @@
 package server
 
 import (
-	v1 "github.com/2pgcn/auth/api/auth/v1"
-	"github.com/2pgcn/auth/internal/conf"
-	"github.com/2pgcn/auth/internal/service"
+	v1 "github.com/2pgcn/kratos-demo/apigw/api/apigw/v1"
+	"github.com/2pgcn/kratos-demo/apigw/internal/conf"
+	"github.com/2pgcn/kratos-demo/apigw/internal/service"
 
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/go-kratos/kratos/v2/middleware/recovery"
@@ -11,10 +11,11 @@ import (
 )
 
 // NewHTTPServer new an HTTP server.
-func NewHTTPServer(c *conf.Server, greeter *service.AuthService, logger log.Logger) *http.Server {
+func NewHTTPServer(c *conf.Server, greeter *service.ApigwService, logger log.Logger) *http.Server {
 	var opts = []http.ServerOption{
 		http.Middleware(
 			recovery.Recovery(),
+			authCtx(),
 		),
 	}
 	if c.Http.Network != "" {
@@ -27,6 +28,6 @@ func NewHTTPServer(c *conf.Server, greeter *service.AuthService, logger log.Logg
 		opts = append(opts, http.Timeout(c.Http.Timeout.AsDuration()))
 	}
 	srv := http.NewServer(opts...)
-	v1.RegisterGreeterHTTPServer(srv, greeter)
+	v1.RegisterApigwHTTPServer(srv, greeter)
 	return srv
 }

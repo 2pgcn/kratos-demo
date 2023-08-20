@@ -1,6 +1,19 @@
 package service
 
-import "github.com/google/wire"
+import (
+	pb "github.com/2pgcn/kratos-demo/apigw/api/article/v1"
+	"github.com/2pgcn/kratos-demo/apigw/internal/biz"
+	"github.com/go-kratos/kratos/v2/log"
+	"github.com/google/wire"
+)
 
 // ProviderSet is service providers.
-var ProviderSet = wire.NewSet(NewAuthService)
+var ProviderSet = wire.NewSet(NewBlogService)
+
+type ArticleService struct {
+	pb.UnimplementedArtictlServiceServer
+
+	log *log.Helper
+
+	article *biz.ArticleUsecase
+}

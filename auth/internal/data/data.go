@@ -3,7 +3,7 @@ package data
 import (
 	"context"
 	"database/sql"
-	"github.com/2pgcn/auth/internal/conf"
+	"github.com/2pgcn/kratos-demo/auth/internal/conf"
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/google/wire"
 	"github.com/redis/go-redis/v9"

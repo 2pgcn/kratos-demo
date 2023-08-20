@@ -2,7 +2,7 @@ package server
 
 import (
 	"context"
-	v1 "github.com/2pgcn/auth/api/auth/v1"
+	v1 "github.com/2pgcn/kratos-demo/article/api/article/v1"
 	"github.com/go-kratos/kratos/v2/errors"
 	"github.com/go-kratos/kratos/v2/middleware"
 	"github.com/go-kratos/kratos/v2/transport"

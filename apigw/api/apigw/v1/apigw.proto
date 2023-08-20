@@ -1,0 +1,106 @@
+syntax = "proto3";
+
+package apigw.v1;
+
+option go_package = "github.com/2pgcn/kratos-demo/auth/api/apigw/v1;v1";
+import "google/api/annotations.proto";
+import "validate/validate.proto";
+
+service Apigw {
+	rpc Register (RegisterRequest) returns (ReturnTokenReply){
+		option (google.api.http) = {
+			post: "/pg/apigw/auth/v1"
+			body: "*"
+		};
+	}
+	rpc Login (LoginRequest) returns (ReturnTokenReply){
+		option (google.api.http) = {
+			post: "/pg/apigw/auth/v1"
+			body: "*"
+		};
+	}
+	rpc CreateArticle (Article) returns (CreateArticleReply){
+		option (google.api.http) = {
+			post: "/pg/apigw/article/v1"
+			body: "*"
+		};
+	}
+	rpc GetArticle (GetArticleRequest) returns (GetArticleReply){
+		option (google.api.http) = {
+			get: "/pg/apigw/article/v1/{id}"
+		};
+	}
+	rpc ListArticle (ListArticleRequest) returns (ListArticleReply){
+		option (google.api.http) = {
+			get: "/pg/apigw/article/v1"
+		};
+	}
+	rpc UpdateArticle (UpdateArticleRequest) returns (UpdateArticleReply) {
+		option (google.api.http) = {
+			put: "/pg/apigw/article/v1/{id}"
+			body: "*"
+		};
+	}
+	rpc DeleteArticle (DeleteArticleRequest) returns (DeleteArticleReply) {
+		option (google.api.http) = {
+			delete: "/pg/apigw/article/v1/{id}"
+		};
+	}
+}
+
+message RegisterRequest {
+	string name = 1;
+	string  password= 2;
+	string email = 3;
+	string avatar = 4;
+}
+
+message LoginRequest {
+	string username = 1;
+	string password = 2;
+}
+
+message ReturnTokenReply {
+	string token = 1;
+}
+
+message Article {
+	int64 id = 1;
+	string title = 2;
+	string content = 3;
+	int64 create_time = 4;
+}
+message CreateArticleReply {
+	int64 aid = 1;
+}
+
+message GetArticleRequest {
+	int64 id = 1;
+}
+
+message GetArticleReply {
+	Article Article = 1;
+}
+
+message ListArticleRequest {
+}
+
+message ListArticleReply {
+	repeated Article results = 1;
+}
+
+message UpdateArticleRequest {
+	int64 id = 1 [(validate.rules).int64 = {gt: 0}];
+	string title = 2 [(validate.rules).string = {min_len: 5, max_len: 50}];
+	string content = 3;
+}
+
+message UpdateArticleReply {
+	Article Article = 1;
+}
+
+message DeleteArticleRequest {
+	int64 id = 1;
+}
+message DeleteArticleReply {
+}

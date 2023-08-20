@@ -5,7 +5,7 @@ package auth.v1;
 import "google/api/annotations.proto";
 import "google/protobuf/Empty.proto";
 
-option go_package = "github.com/2pgcn/auth/api/auth/v1;v1";
+option go_package = "github.com/2pgcn/kratos-demo/auth/api/auth/v1;v1";
 
 // The greeting service definition.
 service Greeter {
@@ -39,7 +39,7 @@ service Greeter {
 }
 
 message RegisterRequest {
-  string name = 1;
+  string username = 1;
   string  password= 2;
   string email = 3;
   string avatar = 4;
